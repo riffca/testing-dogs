@@ -31,7 +31,7 @@ const router = new VueRouter({
 
 
 router.beforeEach((to, from, next)=>{
-	store.commit('clearDogs')
+	setTimeout(()=>store.commit('clearDogs'))
 	next()
 })
 

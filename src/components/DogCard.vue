@@ -24,13 +24,6 @@ export default {
 			if(this.dogIndex === this.dogs.length -1) cb()
 		}
 	},
-	watch:{
-		dogs(val){
-			if(this.dogIndex !== val.length -1) {
-				this.infiniteScrollObserver.unobserve(this.$refs.img)
-			}
-		}
-	},
 	computed: {
 		...mapState(['dogs', 'infiniteScrollObserver'])
 	},
