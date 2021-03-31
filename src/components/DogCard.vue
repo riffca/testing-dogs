@@ -1,8 +1,13 @@
 <template>
 	<div ref='img' :style="{'background-size': 'cover', 'background-image': `url(${dog.img})`}" class="dog-card">
-		<div v-show="dog.saved">
-			<img class="card-heart" src="/img/heart.png" alt="">
-		</div>		
+		<div class="dog-card__heart-icon">
+			<div v-show="dog.saved">
+				<img class="card-heart" src="/img/heart-red.png">
+			</div>
+			<div v-show="!dog.saved">
+				<img class="card-heart" src="/img/heart.png">
+			</div>				
+		</div>
 		<div class="preview-img">
 			<img class="card-heart" src="/img/dog-placeholder.jpg" alt="">
 		</div>
@@ -13,7 +18,6 @@
 
 import { mapState } from 'vuex'
 export default {
-
 	beforeDestroy(){
 		if(this.isLastDog) {
 			this.infiniteScrollObserver.unobserve(this.$refs.img)
@@ -47,7 +51,9 @@ export default {
 	width: 100%;
 	height: 20vw;
 
-
+	&:hover .dog-card__heart-icon {
+		display: block;
+	}
 	.card-heart {
 		max-width: 13%;
 		height: auto; 
@@ -67,7 +73,11 @@ export default {
 			min-width: 3vw;
 		}
 	}
+	&__heart-icon {
+		display: none;
+	}
 }
+
 
 
 </style>
