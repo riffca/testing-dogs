@@ -13,18 +13,21 @@
 
 import { mapState } from 'vuex'
 export default {
+
 	beforeDestroy(){
-		this.isLastDog(()=>	this.infiniteScrollObserver.unobserve(this.$refs.img))
+		if(this.isLastDog) {
+			this.infiniteScrollObserver.unobserve(this.$refs.img)
+		}
 	},
 	mounted(){
-		this.isLastDog(()=>this.infiniteScrollObserver.observe(this.$refs.img))
-	},
-	methods: {
-		isLastDog(cb){
-			if(this.dogIndex === this.dogs.length -1) cb()
+		if(this.isLastDog) {
+			this.infiniteScrollObserver.observe(this.$refs.img)
 		}
 	},
 	computed: {
+		isLastDog(){
+			return this.dogIndex === this.dogs.length -1 
+		},
 		...mapState(['dogs', 'infiniteScrollObserver'])
 	},
 	name: 'DogCard',

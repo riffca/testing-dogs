@@ -1,6 +1,6 @@
 <template>
 	<div class="home">
-		<DogsList :items="dogs" />
+		<DogsList :key='nextKey' :items="dogs" />
 	</div>
 </template>
 
@@ -15,12 +15,19 @@ export default {
 	computed: {
 		...mapState(['dogs'])
 	},
+	data(){
+		return {
+			nextKey: 1
+		}
+	},
 	watch: {
 		$route(){
 			this.runList()
+			this.nextKey++
 		}
 	},
 	created(){
+	
 		if(this.$route.params.breed !== '') {
 			this.runList()
 		}

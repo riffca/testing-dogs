@@ -7,12 +7,23 @@ Vue.use(Vuex)
 let store = new Vuex.Store({
 	state: {
 		dogs: [], 
-		breedList: []
+		breedList: [],
 	},
 	mutations: {
 		'setObserver'(state,cb) {
 			state.infiniteScrollObserver = setObserver(cb)
 		},
+
+		// 'addObserverTarget'(state, target) {
+		// 	state.targets = [...state.targets, target]
+		// },
+		// 'clearObserverTargets'(state) {
+		// 	state.targets.forEach(item=>{
+		// 		state.infiniteScrollObserver.unobserve(item)
+		// 	})
+
+		// 	state.targets = []
+		// },
 
 		'clearDogs'(state) {
 			state.dogs = []

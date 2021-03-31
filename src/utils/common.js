@@ -53,8 +53,8 @@ export function setObserver(cb){
 	return new IntersectionObserver((entries, observer) => {
 		entries.forEach(async entry => {
 			if (entry.isIntersecting) {
-				cb()
 				observer.unobserve(entry.target)
+				cb()
 			}
 		})
 	}, {

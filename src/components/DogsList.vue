@@ -21,9 +21,12 @@ export default {
 		scrollFunc: Function
 	},
 	created(){
-		this.$store.commit('setObserver',()=>{
-			return this.$store.dispatch('getDogsByBreed',{ breed: this.$route.params.breed, forceInsert: true })
-		})
+
+		if(['dogs-show', 'home'].includes(this.$route.name)) {
+			this.$store.commit('setObserver',()=>{
+				return this.$store.dispatch('getDogsByBreed',{ breed: this.$route.params.breed, forceInsert: true })
+			})
+		}
 	},
 }
 </script>

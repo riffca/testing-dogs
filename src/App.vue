@@ -13,27 +13,12 @@ export default {
 	components: {
 		AppHeader
 	},
-	data(){
-		return {
-			viewKey: 1,
-		}
-	},	
 	async created(){
 
 		this.$store.dispatch('setupDogs')
 		this.$store.dispatch('listBreeds')
 
 	},
-	// mounted(){
-	// 	this.updateViewKey()
-	// },
-	// methods: {
-	// 	updateViewKey() {
-	// 		this.viewKey+=1;
-	// 	}
-
-	// }
-
 
 }
 
