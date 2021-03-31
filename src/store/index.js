@@ -13,18 +13,6 @@ let store = new Vuex.Store({
 		'setObserver'(state,cb) {
 			state.infiniteScrollObserver = setObserver(cb)
 		},
-
-		// 'addObserverTarget'(state, target) {
-		// 	state.targets = [...state.targets, target]
-		// },
-		// 'clearObserverTargets'(state) {
-		// 	state.targets.forEach(item=>{
-		// 		state.infiniteScrollObserver.unobserve(item)
-		// 	})
-
-		// 	state.targets = []
-		// },
-
 		'clearDogs'(state) {
 			state.dogs = []
 		},
@@ -42,10 +30,6 @@ let store = new Vuex.Store({
 		}
 	},
 	actions: {
-		async setupDogs({dispatch}){
-			await dispatch('getDogsByBreed', {})
-		},
-
 		saveFavourite({commit},dog){
 			let query = { img: dog.img}
 			let resolve = storage.favourites.find(query)

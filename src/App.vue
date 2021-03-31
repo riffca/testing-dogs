@@ -15,7 +15,6 @@ export default {
 	},
 	async created(){
 
-		this.$store.dispatch('setupDogs')
 		this.$store.dispatch('listBreeds')
 
 	},

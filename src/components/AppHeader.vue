@@ -25,13 +25,15 @@ export default {
 	},
 
 	watch: {
-		// $route(val){
-		// 	if(['home', 'favourites'].includes(val.name)) {
-		// 		this.selectedBreed = ''
-		// 	}
-		// },
+		$route(val){
+			if(['home', 'favourites'].includes(val.name)) {
+				this.selectedBreed = ''
+			}
+		},
 		async selectedBreed(val){
-			this.$router.push({name: 'dogs-show', params: { breed: val }})
+			if(val) {
+				this.$router.push({name: 'dogs-show', params: { breed: val }})
+			}
 		}
 	}
 }
