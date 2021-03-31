@@ -1,7 +1,9 @@
 <template>
 	<div ref="list" class="dogs-list">
-		<div class="dogs-list__dog-card" :ref="'dogCard'+index" v-for="(dog,index) in items" :key="index">
-			<DogCard :dog="dog" />
+		<div
+			@click="$store.dispatch('saveFavourite',dog)"
+			class="center" :ref="'dogCard'+index" v-for="(dog,index) in items" :key="dog.id">
+			<DogCard :dog="dog" :dogIndex="index" />
 		</div>
 	</div>
 </template>
@@ -17,66 +19,24 @@ export default {
 			default:()=>[]
 		},
 		scrollFunc: Function
-
 	},
-
-	mounted(){
-
-		if(this.getLastRef() && this.scrollFunc) {
-			// для того, чтобы все время наблюдать за последним элементом списка
-			// мы используем нечто вроде замыкания
-			// прекращаем наблюдать за целевым элементом после создания очередного li
-			// и начинаем наблюдать за этим новым (последним) элементом
-			let observer = new IntersectionObserver((entries, observer) => {
-				entries.forEach(entry => {
-
-					console.log('some---->',entry)
-
-					if (entry.isIntersecting) {
-						this.$store.dispatch('loadMoreDogs')
-					}
-					observer.unobserve(entry.target)
-					observer.observe(this.getLastRef())
-				})
-			}, {
-				threshold: 1
-			})
-
-			observer.observe(this.getLastRef())
-
-		}
-
-
+	created(){
+		this.$store.commit('setObserver',()=>{
+			return this.$store.dispatch('getDogsByBreed',{ breed: this.$route.params.breed, forceInsert: true })
+		})
 	},
-
-	methods: {
-		getLastRef(){
-			return this.$refs['dogCard'+this.items.length-1]
-		}
-	},
-	data () {
-		return {
-
-		}
-	}
 }
 </script>
 
 <style lang="scss">
 
 .dogs-list {
+	padding: 1vw 10vw;
+	margin-top: calc(12vh + 12px);
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr;
 	grid-template-rows: 1fr 1fr 1fr;
-	gap: 0px 0px;
+	gap: .25vw .25vw;
 }
 
-.dogs-list__dog-card {
-
-	img {
-		max-width:5vw;
-
-	}
-
-}
 </style>

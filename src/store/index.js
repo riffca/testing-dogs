@@ -1,40 +1,49 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { request, storage, arrRandom } from '@/utils/common'
+import { request, storage, arrRandom, convertDogs, setObserver } from '@/utils/common'
 Vue.use(Vuex)
+
 
 let store = new Vuex.Store({
 	state: {
 		dogs: [], 
-		favourites: [],
 		breedList: []
 	},
 	mutations: {
-		'setDogs'(state, dogs){
-			if(!dogs.some(i=>i.img)) {
-				dogs = dogs.map(item=>({
-					img: item, 
-					saved: false,
-				}))
-			}
-			state.dogs = dogs
+		'setObserver'(state,cb) {
+			state.infiniteScrollObserver = setObserver(cb)
 		},
-		'setFavourites'(state){
-			state.favourites = storage.favourites.documents
-		},	
+
+		'clearDogs'(state) {
+			state.dogs = []
+		},
+		'addDogs'(state, dogs) {
+			state.dogs = [...state.dogs, ...convertDogs(dogs)]
+		},
+		'setDogs'(state, dogs){
+			state.dogs = convertDogs(dogs)
+		},
 		'setBreedList'(state, list){
 			state.breedList = list
+		},
+		'updateFavourites'(state) {
+			state.dogs = convertDogs(state.dogs)
 		}
 	},
 	actions: {
-		async setupDogs({commit, dispatch}){
-			commit('setFavourites')
+		async setupDogs({dispatch}){
 			await dispatch('getDogsByBreed', {})
 		},
 
-		saveFavourite({commit},breed){
-			storage.add('favourites',breed)
-			commit('setFavourites')
+		saveFavourite({commit},dog){
+			let query = { img: dog.img}
+			let resolve = storage.favourites.find(query)
+			if(resolve.length) {
+				storage.favourites.remove(query)
+			} else {
+				storage.favourites.insert(dog)
+			}
+			commit('updateFavourites')
 		},
 
 		getDogsByBreed({commit, rootState},{ breed, forceInsert}){
