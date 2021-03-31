@@ -18,7 +18,6 @@ export default {
 			type: Array,
 			default:()=>[]
 		},
-		scrollFunc: Function
 	},
 	created(){
 
